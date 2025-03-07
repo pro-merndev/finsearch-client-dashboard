@@ -11,7 +11,7 @@ const HomeBannerVideosGrid = () => {
     >
       <Box>
         <VideoPlayer
-          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          src="https://www.w3schools.com/tags/mov_bbb.mp4"
           width="100%"
           height="400px"
           title="Elephants Dream - Custom Height"
@@ -21,7 +21,7 @@ const HomeBannerVideosGrid = () => {
       </Box>
       <Box>
         <VideoPlayer
-          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          src="https://www.w3schools.com/tags/mov_bbb.mp4"
           width="100%"
           height="400px"
           title="Elephants Dream - Custom Height"
@@ -31,7 +31,7 @@ const HomeBannerVideosGrid = () => {
       </Box>
       <Box>
         <VideoPlayer
-          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          src="https://www.w3schools.com/tags/mov_bbb.mp4"
           width="100%"
           height="400px"
           title="Elephants Dream - Custom Height"
