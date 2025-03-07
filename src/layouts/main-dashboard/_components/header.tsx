@@ -1,12 +1,5 @@
-import {
-  Burger,
-  Drawer,
-  Group,
-  Input,
-  Paper,
-  Stack,
-  Text,
-} from "@mantine/core";
+import Logo from "@/components/common/logo";
+import { Burger, Drawer, Group, Input, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -19,7 +12,6 @@ import DesktopMenuItem from "./desktop-menu-item";
 import MobileMenuItem from "./mobile-menu-item";
 import UnauthorizedActions from "./unauthorized-actions";
 import UserMenu from "./user-menu";
-import Logo from "@/components/common/logo";
 
 export default function Header() {
   // State management
@@ -36,8 +28,6 @@ export default function Header() {
   const handleSignin = () => setAuthorized(true);
   const handleSignout = () => setAuthorized(false);
 
- 
- 
   const DesktopMenu = (
     <Group gap={0} visibleFrom="lg">
       {menuLinks.map((link, i) => (
@@ -54,7 +44,7 @@ export default function Header() {
     <Group justify="space-between" align="center" h="100%">
       {/* Left section */}
       <Group>
-        <Logo/>
+        <Logo />
         {authorized && DesktopMenu}
       </Group>
 
