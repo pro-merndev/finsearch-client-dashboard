@@ -4,7 +4,7 @@ import Header from "./_components/header";
 
 const MainDashboardLayout = () => {
   return (
-    <AppShell header={{ height: 60 }} padding="md">
+    <AppShell header={{ height: 75 }} padding="md">
       <AppShell.Header>
         <Container size="xl" h="100%">
           <Header />
