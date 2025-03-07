@@ -1,6 +1,14 @@
-import { ButtonProps, Button as MantineButton } from "@mantine/core";
+import {
+  ButtonProps,
+  Button as MantineButton,
+  PolymorphicComponentProps,
+} from "@mantine/core";
 
-const Button = ({ children, style, ...props }: ButtonProps) => {
+const Button = ({
+  children,
+  style,
+  ...props
+}: PolymorphicComponentProps<any, ButtonProps>) => {
   const styles: any = {
     ...style,
   };
