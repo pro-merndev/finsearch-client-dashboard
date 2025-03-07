@@ -5,7 +5,12 @@ import router from "./routes";
 
 export default function App() {
   return (
-    <MantineProvider>
+    <MantineProvider
+      defaultColorScheme="light"
+      classNamesPrefix="fin-searches"
+      withCssVariables
+      withGlobalClasses
+    >
       <RouterProvider router={router} />
     </MantineProvider>
   );
