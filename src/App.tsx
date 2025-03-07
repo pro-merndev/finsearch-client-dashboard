@@ -8,7 +8,7 @@ export default function App() {
   return (
     <MantineProvider stylesTransform={emotionTransform}>
       <MantineEmotionProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={router}  />
       </MantineEmotionProvider>
     </MantineProvider>
   );
