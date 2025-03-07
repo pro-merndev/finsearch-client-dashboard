@@ -19,6 +19,7 @@ import DesktopMenuItem from "./desktop-menu-item";
 import MobileMenuItem from "./mobile-menu-item";
 import UnauthorizedActions from "./unauthorized-actions";
 import UserMenu from "./user-menu";
+import Logo from "@/components/common/logo";
 
 export default function Header() {
   // State management
@@ -35,16 +36,8 @@ export default function Header() {
   const handleSignin = () => setAuthorized(true);
   const handleSignout = () => setAuthorized(false);
 
-  // Component sections
-  const Logo = (
-    <Paper>
-      <Text fw={700} size="xl" c="blue">
-        fin
-        <Text span>|searches</Text>
-      </Text>
-    </Paper>
-  );
-
+ 
+ 
   const DesktopMenu = (
     <Group gap={0} visibleFrom="lg">
       {menuLinks.map((link, i) => (
@@ -61,7 +54,7 @@ export default function Header() {
     <Group justify="space-between" align="center" h="100%">
       {/* Left section */}
       <Group>
-        {Logo}
+        <Logo/>
         {authorized && DesktopMenu}
       </Group>
 
