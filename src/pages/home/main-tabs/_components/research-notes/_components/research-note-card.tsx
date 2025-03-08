@@ -19,8 +19,8 @@ export default function ResearchTable({ items }: ResearchTableProps) {
   return (
     <Card
       shadow="sm"
-      padding={0}
-      radius="md"
+      padding="lg"
+      radius="lg"
       withBorder
       className="max-w-4xl w-full"
     >

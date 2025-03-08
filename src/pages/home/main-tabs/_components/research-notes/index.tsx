@@ -9,7 +9,7 @@ const ResearchNotesTab = () => {
         <Text component="h4" fz={20} fw={700}>
           Research Notes
         </Text>
-        <Anchor to="/news" c="#0D395C" fw={500} fz={20} component={Link}>
+        <Anchor to="#" c="#0D395C" fw={500} fz={20} component={Link}>
           View All
         </Anchor>
       </Group>
