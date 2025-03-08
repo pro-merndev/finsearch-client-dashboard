@@ -32,7 +32,7 @@ export default function PlanReturnsCard({
     <Card
       shadow="sm"
       padding="lg"
-      radius="md"
+      radius="lg"
       withBorder
       className="max-w-md"
       h={400}
@@ -68,19 +68,13 @@ export default function PlanReturnsCard({
               textDecoration: "none",
             }}
           >
-            <Text fw={600} size="xs"  c="dark">
+            <Text fw={600} size="xs" c="dark">
               {doc.title}
             </Text>
 
             <Divider my="sm" />
 
-            <Flex
-              justify="space-between"
-              align="center"
-              wrap="wrap"
-              gap="md"
-           
-            >
+            <Flex justify="space-between" align="center" wrap="wrap" gap="md">
               {doc?.performanceItems?.map((item, index) => (
                 <Group key={index} gap="xs">
                   <Text size="xs" c="dimmed">
