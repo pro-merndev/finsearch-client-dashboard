@@ -34,7 +34,7 @@ export default function MainTabs() {
   ];
 
   return (
-    <Tabs color="blue" defaultValue="all">
+    <Tabs color="blue" defaultValue="all" mt={24}>
       <Tabs.List>
         {tabItems.map((tab) => (
           <Tabs.Tab key={tab.value} value={tab.value}>
@@ -44,7 +44,7 @@ export default function MainTabs() {
       </Tabs.List>
 
       {tabItems.map((tab) => (
-        <Tabs.Panel key={tab.value} value={tab.value} pt="xs">
+        <Tabs.Panel key={tab.value} value={tab.value} pb={24}>
           {tab.component}
         </Tabs.Panel>
       ))}

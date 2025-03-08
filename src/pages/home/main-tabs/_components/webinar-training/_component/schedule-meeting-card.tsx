@@ -23,7 +23,7 @@ export default function ScheduleTrainingCard() {
       h="100%"
     >
       <div className="relative z-10">
-        <Text size="xl" fw={600} c="white" mb="md">
+        <Text fz={36} fw={600} c="white" mb="md">
           Schedule a Training Session
         </Text>
 

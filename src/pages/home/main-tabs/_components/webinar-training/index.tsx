@@ -16,11 +16,13 @@ const WebinarTrainingTab = () => {
               width="100%"
               style={{
                 height: "100%",
+                borderRadius: "16px",
               }}
               title="Elephants Dream - Custom Height"
               date="Mar 8, 2025"
               poster="/dummy-poster.png"
               hideShare
+
             />
           </Box>
         </Grid.Col>
