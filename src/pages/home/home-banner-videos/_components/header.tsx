@@ -1,4 +1,5 @@
 import { Anchor, Flex, Text } from "@mantine/core";
+import { Link } from "react-router";
 
 const HomeBannerHeader = () => {
   return (
@@ -6,7 +7,7 @@ const HomeBannerHeader = () => {
       <Text fw={700} fz="h4" c="dark">
         Watch our news videos
       </Text>
-      <Anchor href="/news" c="dark" fw={500} fz="lg">
+      <Anchor to="/news" c="#0D395C" fw={500} fz="lg" component={Link}>
         View All
       </Anchor>
     </Flex>

@@ -15,7 +15,7 @@ import UserMenu from "./user-menu";
 
 export default function Header() {
   // State management
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState(true);
   const [menuLinks, setMenuLinks] = useState<IDesktopMenuItem[]>([]);
   const [opened, { close, toggle }] = useDisclosure(false);
 
