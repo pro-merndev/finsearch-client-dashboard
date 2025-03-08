@@ -1,5 +1,3 @@
-"use client";
-
 import { Anchor, Box, Card, Divider, Group, Select, Text } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 

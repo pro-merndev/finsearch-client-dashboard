@@ -1,16 +1,24 @@
 import { Button, Menu, rem } from "@mantine/core";
-import { IconPlus, IconSettings } from "@tabler/icons-react";
+import { IconCheck, IconPlus, IconSettings } from "@tabler/icons-react";
 
-export default function CustomizeButton() {
+interface CustomizeButtonProps {
+  visibleItems: Record<string, boolean>;
+  toggleVisibility: (item: any) => void;
+}
+
+export default function CustomizeButton({
+  toggleVisibility,
+  visibleItems,
+}: CustomizeButtonProps) {
   const menuItems = [
-    "Latest Documents",
-    "Latest Mandates",
-    "Latest Returns",
-    "Latest News",
-    "Tasks",
-    "Favorites",
-    "Saved Searches",
-    "Manager Activity",
+    { label: "Latest Documents", key: "latestDocuments" },
+    { label: "Latest Mandates", key: "latestMandates" },
+    { label: "Latest Returns", key: "planReturns" },
+    { label: "Latest News", key: "latestNews" },
+    { label: "Tasks", key: "tasks" },
+    { label: "Favorites", key: "favorites" },
+    { label: "Saved Searches", key: "savedSearches" },
+    { label: "Manager Activity", key: "managerActivity" },
   ];
 
   return (
@@ -50,15 +58,22 @@ export default function CustomizeButton() {
       </Menu.Target>
 
       <Menu.Dropdown>
-        {menuItems.map((item, index) => (
+        {menuItems.map((item) => (
           <Menu.Item
-            key={index}
+            key={item.key}
             rightSection={
-              <IconPlus size={16} stroke={1.5} style={{ color: "dark" }} />
+              visibleItems[item.key] ? (
+                <IconCheck size={16} stroke={1.5} style={{ color: "green" }} />
+              ) : (
+                <IconPlus size={16} stroke={1.5} style={{ color: "gray" }} />
+              )
             }
             fz={12}
+            onClick={() =>
+              toggleVisibility(item.key as keyof typeof visibleItems)
+            }
           >
-            {item}
+            {item.label}
           </Menu.Item>
         ))}
       </Menu.Dropdown>

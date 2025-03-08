@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Anchor,
   Box,
@@ -32,7 +30,7 @@ export default function TasksCard({
     <Card
       shadow="sm"
       padding="lg"
-      radius="md"
+      radius="lg"
       withBorder
       className="max-w-md"
       h={400}
