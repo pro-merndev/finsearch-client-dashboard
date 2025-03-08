@@ -1,5 +1,3 @@
-"use client";
-
 import { Anchor, Avatar, Card, Group, Table, Text } from "@mantine/core";
 import { IconBrandLinkedin } from "@tabler/icons-react";
 

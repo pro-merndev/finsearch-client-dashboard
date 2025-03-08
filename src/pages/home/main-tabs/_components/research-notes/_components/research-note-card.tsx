@@ -1,5 +1,3 @@
-"use client";
-
 import { Anchor, Card, Divider, Group, Modal, Table, Text, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconFileText } from "@tabler/icons-react";

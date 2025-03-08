@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import { Input, Group, Chip, Box, Transition, Paper } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
