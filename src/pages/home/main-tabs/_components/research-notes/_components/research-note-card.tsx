@@ -1,21 +1,64 @@
-import { Divider, Modal, Text } from "@mantine/core";
+"use client";
+
+import { Anchor, Card, Divider, Group, Modal, Table, Text, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { useEffect } from "react";
+import { IconFileText } from "@tabler/icons-react";
 
-const PopoverProviders = ({ children }: { children: React.ReactNode }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface ResearchItem {
+  firm: string;
+  firmLink: string;
+  date: string;
+  subjectLine: string;
+  documentLink: string;
+}
 
-  useEffect(() => {
-    const researchOverview = sessionStorage.getItem("researchOverview");
-    if (!researchOverview) {
-      open();
-      sessionStorage.setItem("researchOverview", "true");
-    }
-  }, [open]);
+interface ResearchTableProps {
+  items: ResearchItem[];
+}
 
+export default function ResearchTable({ items }: ResearchTableProps) {
+    const [opened, { open, close }] = useDisclosure(false);
   return (
-    <div>
-      {children}
+    <Card
+      shadow="sm"
+      padding={0}
+      radius="md"
+      withBorder
+      className="max-w-4xl w-full"
+    >
+      <Table verticalSpacing="md" horizontalSpacing="lg">
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th fz="sm">Firm</Table.Th>
+            <Table.Th fz="sm">Date</Table.Th>
+            <Table.Th fz="sm">Subject Line</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {items.map((item, index) => (
+            <Table.Tr key={index}>
+              <Table.Td>
+                <Anchor href={item.firmLink} fz="sm" c="blue">
+                  {item.firm}
+                </Anchor>
+              </Table.Td>
+              <Table.Td>
+                <Text fz="sm">{item.date}</Text>
+              </Table.Td>
+              <Table.Td>
+                <Group justify="space-between" align="center">
+                  <Text fz="sm" tt="uppercase">
+                    {item.subjectLine}
+                  </Text>
+                  <UnstyledButton onClick={open}>
+                    <IconFileText size={20} style={{ color: "#868E96" }} />
+                  </UnstyledButton>
+                </Group>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
       <Modal
         opened={opened}
         onClose={close}
@@ -51,8 +94,6 @@ const PopoverProviders = ({ children }: { children: React.ReactNode }) => {
           asset allocation to diligence of underlying investments.
         </Text>
       </Modal>
-    </div>
+    </Card>
   );
-};
-
-export default PopoverProviders;
+}
