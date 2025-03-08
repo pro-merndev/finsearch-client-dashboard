@@ -1,7 +1,7 @@
 const ResearchNotesTab = () => {
   return (
     <div>
-      <h1>Research Notes</h1>
+      <h1>------------------ Upcoming Research Notes ------------------</h1>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 const ContactHighlightTab = () => {
   return (
     <div>
-      <h1>Contact Highlight</h1>
+      <h1>------------------ Upcoming Contact Highlight ------------------</h1>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 const WebinarTrainingTab = () => {
   return (
     <div>
-      <h1>Webinar & Training</h1>
+      <h1>------------------ Upcoming Webinar & Training ------------------</h1>
     </div>
   );
 };
