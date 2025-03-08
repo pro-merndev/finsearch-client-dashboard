@@ -35,7 +35,7 @@ export default function MainTabs() {
 
   return (
     <Tabs color="blue" defaultValue="all" mt={24}>
-      <Tabs.List grow>
+      <Tabs.List>
         {tabItems.map((tab) => (
           <Tabs.Tab key={tab.value} value={tab.value}>
             {tab.label}
