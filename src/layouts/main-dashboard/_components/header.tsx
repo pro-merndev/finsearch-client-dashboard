@@ -1,7 +1,6 @@
 import Logo from "@/components/common/logo";
-import { Burger, Drawer, Group, Input, Stack } from "@mantine/core";
+import { Burger, Drawer, Group, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import {
   authMenuLinks,
@@ -10,6 +9,7 @@ import {
 } from "../_data/menu-links";
 import DesktopMenuItem from "./desktop-menu-item";
 import MobileMenuItem from "./mobile-menu-item";
+import SearchBar from "./searchbar";
 import UnauthorizedActions from "./unauthorized-actions";
 import UserMenu from "./user-menu";
 
@@ -36,10 +36,6 @@ export default function Header() {
     </Group>
   );
 
-  const SearchBar = (
-    <Input placeholder="Search" leftSection={<IconSearch size={16} />} />
-  );
-
   return (
     <Group justify="space-between" align="center" h="100%">
       {/* Left section */}
@@ -54,7 +50,11 @@ export default function Header() {
       {/* Right section */}
       <Group>
         {!authorized && <UnauthorizedActions handleSignin={handleSignin} />}
-        {authorized && <Group visibleFrom="sm">{SearchBar}</Group>}
+        {authorized && (
+          <Group visibleFrom="sm">
+            <SearchBar />
+          </Group>
+        )}
         {authorized && <UserMenu handleSignout={handleSignout} />}
         <Burger opened={opened} onClick={toggle} hiddenFrom="lg" />
       </Group>
@@ -68,7 +68,7 @@ export default function Header() {
         </Stack>
         {authorized && (
           <Group hiddenFrom="sm" px="md" mt="xl">
-            {SearchBar}
+            <SearchBar />
           </Group>
         )}
         <Group justify="center" mt="xl">

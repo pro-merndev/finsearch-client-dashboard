@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Anchor,
   Box,
@@ -31,14 +29,14 @@ export default function FavoriteCard({
     <Card
       shadow="sm"
       padding="lg"
-      radius="md"
+      radius="lg"
       withBorder
       className="max-w-md"
       h={400}
     >
       <Group justify="space-between">
         <Text fw={600} size="md">
-          TASKS
+          FAVORITES
         </Text>
         <Group gap="xs">
           <Anchor href="#" size="sm" c="blue">

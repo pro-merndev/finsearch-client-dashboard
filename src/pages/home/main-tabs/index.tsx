@@ -44,7 +44,7 @@ export default function MainTabs() {
       </Tabs.List>
 
       {tabItems.map((tab) => (
-        <Tabs.Panel key={tab.value} value={tab.value} pt="xs">
+        <Tabs.Panel key={tab.value} value={tab.value} pb={24}>
           {tab.component}
         </Tabs.Panel>
       ))}

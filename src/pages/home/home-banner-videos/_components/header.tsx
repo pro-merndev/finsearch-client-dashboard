@@ -7,7 +7,7 @@ const HomeBannerHeader = () => {
       <Text fw={700} fz="h4" c="dark">
         Watch our news videos
       </Text>
-      <Anchor to="/news" c="#0D395C" fw={500} fz="lg" component={Link}>
+      <Anchor to="#" c="#0D395C" fw={500} fz="lg" component={Link}>
         View All
       </Anchor>
     </Flex>
