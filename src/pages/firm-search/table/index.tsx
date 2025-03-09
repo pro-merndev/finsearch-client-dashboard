@@ -1,5 +1,4 @@
 import type React from "react";
-
 import {
   ActionIcon,
   Box,
@@ -128,17 +127,10 @@ const data: Person[] = [
 const columnHelper = createColumnHelper<any>();
 
 // Reorderable header component
-const DraggableColumnHeader = ({
-  header,
-  table,
-}: {
-  header: any;
-  table: any;
-}) => {
+const DraggableColumnHeader = ({ header, table, openPopover, closePopover, isPopoverOpen }: { header: any; table: any; openPopover: (id: string) => void; closePopover: () => void; isPopoverOpen: boolean }) => {
   const { getState, setColumnOrder } = table;
   const { columnOrder } = getState();
   const { column } = header;
-  const [opened, { open, close }] = useDisclosure(false);
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const [, dropRef] = useDrop({
@@ -174,26 +166,29 @@ const DraggableColumnHeader = ({
 
   // Handle column visibility
   const toggleColumnVisibility = () => {
-    table.toggleColumnVisibility(column.id, !column.getIsVisible());
-    close();
+    table.setColumnVisibility((prev: any) => ({
+      ...prev,
+      [column.id]: !column.getIsVisible(),
+    }));
+    closePopover();
   };
 
   // Handle column sorting
   const sortColumn = (direction: "asc" | "desc" | false) => {
     column.toggleSorting(direction === "asc", false);
-    close();
+    closePopover();
   };
 
   // Reset column size
   const resetColumnSize = () => {
     column.resetSize();
-    close();
+    closePopover();
   };
 
   // Show all columns
   const showAllColumns = () => {
     table.setColumnVisibility({});
-    close();
+    closePopover();
   };
 
   return (
@@ -225,10 +220,7 @@ const DraggableColumnHeader = ({
         >
           {flexRender(header.column.columnDef.header, header.getContext())}
           <div style={{ marginLeft: 4 }}>
-            <IconArrowsUpDown
-              size={16}
-              opacity={column.getIsSorted() ? 1 : 0.5}
-            />
+            <IconArrowsUpDown size={16} opacity={column.getIsSorted() ? 1 : 0.5} />
           </div>
         </div>
       </div>
@@ -239,140 +231,202 @@ const DraggableColumnHeader = ({
         </div>
         <div ref={popoverRef} style={{ cursor: "pointer" }}>
           <Popover
-            opened={opened}
-            onClose={close}
+            opened={isPopoverOpen}
+            onClose={closePopover}
             position="bottom-end"
             shadow="md"
             width={250}
             withinPortal
           >
             <Popover.Target>
-              <div onClick={open}>
+              <div onClick={() => (isPopoverOpen ? closePopover() : openPopover(column.id))}>
                 <IconAdjustmentsHorizontal size={16} style={{ opacity: 0.5 }} />
               </div>
             </Popover.Target>
             <Popover.Dropdown p={0}>
               <div style={{ padding: "8px 0" }}>
-                <button
-                  onClick={() => sortColumn(false)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    width: "100%",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    color: "#868e96",
-                    opacity: column.getIsSorted() ? 1 : 0.6,
-                  }}
-                >
-                  <IconClearAll size={16} />
-                  <span>Clear Sort</span>
-                </button>
-
-                <button
-                  onClick={() => sortColumn("asc")}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    width: "100%",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    fontWeight:
-                      column.getIsSorted() === "asc" ? "bold" : "normal",
-                  }}
-                >
-                  <IconArrowUp size={16} />
-                  <span>Sort by {column.id} ascending</span>
-                </button>
-
-                <button
-                  onClick={() => sortColumn("desc")}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    width: "100%",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    fontWeight:
-                      column.getIsSorted() === "desc" ? "bold" : "normal",
-                  }}
-                >
-                  <IconArrowDown size={16} />
-                  <span>Sort by {column.id} Decending</span>
-                </button>
-
-                <button
-                  onClick={resetColumnSize}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    width: "100%",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    color: "#868e96",
-                  }}
-                >
-                  <IconArrowsHorizontal size={16} />
-                  <span>Reset column size</span>
-                </button>
-
-                <button
-                  onClick={toggleColumnVisibility}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    width: "100%",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
-                  <IconEyeOff size={16} />
-                  <span>Hide {column.id} column</span>
-                </button>
-
-                <button
-                  onClick={showAllColumns}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    width: "100%",
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
-                  <IconEye size={16} />
-                  <span>Show all column</span>
-                </button>
+                <PopoverButton onClick={() => sortColumn(false)} icon={<IconClearAll size={16} />} text="Clear Sort" />
+                <PopoverButton onClick={() => sortColumn("asc")} icon={<IconArrowUp size={16} />} text={`Sort by ${column.id} ascending`} isBold={column.getIsSorted() === "asc"} />
+                <PopoverButton onClick={() => sortColumn("desc")} icon={<IconArrowDown size={16} />} text={`Sort by ${column.id} descending`} isBold={column.getIsSorted() === "desc"} />
+                <PopoverButton onClick={resetColumnSize} icon={<IconArrowsHorizontal size={16} />} text="Reset column size" />
+                <PopoverButton onClick={toggleColumnVisibility} icon={<IconEyeOff size={16} />} text={`Hide ${column.id} column`} />
+                <PopoverButton onClick={showAllColumns} icon={<IconEye size={16} />} text="Show all columns" />
               </div>
             </Popover.Dropdown>
           </Popover>
         </div>
       </div>
     </div>
+  );
+};
+
+const PopoverButton = ({ onClick, icon, text, isBold }: { onClick: () => void; icon: React.ReactNode; text: string; isBold?: boolean }) => (
+  <button
+    onClick={onClick}
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      padding: "8px 16px",
+      width: "100%",
+      border: "none",
+      background: "none",
+      cursor: "pointer",
+      textAlign: "left",
+      fontWeight: isBold ? "bold" : "normal",
+    }}
+  >
+    {icon}
+    <span>{text}</span>
+  </button>
+);
+
+// Filter component
+const Filters = ({
+  minAUM,
+  setMinAUM,
+  maxAUM,
+  setMaxAUM,
+  openFullscreenModal,
+  exportData,
+}: {
+  minAUM: number | "";
+  setMinAUM: (value: number | "") => void;
+  maxAUM: number | "";
+  setMaxAUM: (value: number | "") => void;
+  openFullscreenModal: () => void;
+  exportData: (format: "csv" | "excel" | "pdf") => void;
+}) => {
+  const resetMinAUM = () => setMinAUM("");
+  const resetMaxAUM = () => setMaxAUM("");
+
+  return (
+    <Flex gap="md" mb="md" wrap="wrap">
+      <Box style={{ position: "relative", width: 220 }}>
+        <NumberInput
+          value={minAUM}
+          onChange={(value) => setMinAUM(value as number)}
+          label="Min Total AUM (In Millions)"
+          placeholder="Min AUM"
+          rightSection={
+            minAUM !== "" && (
+              <ActionIcon onClick={resetMinAUM} variant="transparent">
+                <IconX size={16} />
+              </ActionIcon>
+            )
+          }
+        />
+      </Box>
+
+      <Box style={{ position: "relative", width: 220 }}>
+        <NumberInput
+          value={maxAUM}
+          onChange={(value) => setMaxAUM(value as number)}
+          label="Max Total AUM (In Millions)"
+          placeholder="Max AUM"
+          rightSection={
+            maxAUM !== "" && (
+              <ActionIcon onClick={resetMaxAUM} variant="transparent">
+                <IconX size={16} />
+              </ActionIcon>
+            )
+          }
+        />
+      </Box>
+
+      <Box style={{ flex: 1 }} />
+
+      {/* Table actions */}
+      <Group>
+        <ActionIcon variant="light" onClick={openFullscreenModal}>
+          <IconArrowsMaximize size={20} />
+        </ActionIcon>
+
+        <ActionIcon variant="light">
+          <IconTable size={20} />
+        </ActionIcon>
+
+        <ActionIcon variant="light">
+          <IconFilter size={20} />
+        </ActionIcon>
+
+        <Menu position="bottom-end" shadow="md">
+          <Menu.Target>
+            <Button variant="light">
+              Export <IconChevronDown size={16} />
+            </Button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item onClick={() => exportData("csv")}>Export as CSV</Menu.Item>
+            <Menu.Item onClick={() => exportData("excel")}>Export as Excel</Menu.Item>
+            <Menu.Item onClick={() => exportData("pdf")}>Export as PDF</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Group>
+    </Flex>
+  );
+};
+
+// Pagination component
+const Pagination = ({ table }: { table: any }) => {
+  const handleRowsPerPageChange = (value: string) => {
+    table.setPageSize(Number(value));
+  };
+
+  return (
+    <Flex justify="center" align="center" mt="md" gap={10}>
+      <Group gap="xs">
+        <Text size="sm">Rows Per Page</Text>
+        <Select
+          value={table.getState().pagination.pageSize.toString()}
+          onChange={(value) => handleRowsPerPageChange(value ?? "")}
+          data={[
+            { value: "10", label: "10" },
+            { value: "25", label: "25" },
+            { value: "50", label: "50" },
+            { value: "100", label: "100" },
+          ]}
+          style={{ width: 70 }}
+        />
+      </Group>
+
+      <Group>
+        <ActionIcon
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <IconChevronsLeft size={16} />
+        </ActionIcon>
+        <ActionIcon
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <IconArrowLeft size={16} />
+        </ActionIcon>
+
+        <Text size="sm">
+          {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
+          {Math.min(
+            (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+            table.getFilteredRowModel().rows.length
+          )}{" "}
+          of {table.getFilteredRowModel().rows.length}
+        </Text>
+
+        <ActionIcon
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          <IconArrowRight size={16} />
+        </ActionIcon>
+        <ActionIcon
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          <IconChevronsRight size={16} />
+        </ActionIcon>
+      </Group>
+    </Flex>
   );
 };
 
@@ -387,6 +441,7 @@ export function FirmSearchTable() {
   const [maxAUM, setMaxAUM] = useState<number | "">(500);
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState("25");
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
   // Define columns
   const columns = useMemo<ColumnDef<any>[]>(
@@ -396,12 +451,14 @@ export function FirmSearchTable() {
         cell: (info) => info.getValue(),
         enableSorting: true,
         footer: (info) => info.column.id,
+        enableHiding: true,
       }),
       columnHelper.accessor("location", {
         header: () => <Text fw={600}>Location</Text>,
         cell: (info) => info.getValue(),
         enableSorting: true,
         footer: (info) => info.column.id,
+        enableHiding: true,
       }),
       columnHelper.accessor("totalAUM", {
         header: () => <Text fw={600}>Total AUM (Millions)</Text>,
@@ -412,11 +469,13 @@ export function FirmSearchTable() {
           const [min, max] = filterValue as [number, number];
           return value >= min && value <= max;
         },
+        enableHiding: true,
       }),
       columnHelper.accessor("individualAUM", {
         header: () => <Text fw={600}>Individual AUM (Millions)</Text>,
         cell: (info) => `$${info.getValue()}M`,
         enableSorting: true,
+        enableHiding: true,
       }),
     ],
     []
@@ -455,13 +514,8 @@ export function FirmSearchTable() {
     getFilteredRowModel: getFilteredRowModel(),
     onGlobalFilterChange: setGlobalFilter,
     columnResizeMode,
+    enableHiding: true,
   });
-
-  // Update rows per page
-  const handleRowsPerPageChange = (value: string) => {
-    setRowsPerPage(value);
-    table.setPageSize(Number(value));
-  };
 
   // Export data function
   const exportData = (format: "csv" | "excel" | "pdf") => {
@@ -469,8 +523,7 @@ export function FirmSearchTable() {
     // This is a simplified example
     const exportFormats = {
       csv: "text/csv",
-      excel:
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      excel: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       pdf: "application/pdf",
     };
 
@@ -500,83 +553,27 @@ export function FirmSearchTable() {
     });
   };
 
-  // Reset AUM filters
-  const resetMinAUM = () => setMinAUM("");
-  const resetMaxAUM = () => setMaxAUM("");
+  // Open popover
+  const openPopover = (id: string) => {
+    setOpenPopoverId(id);
+  };
+
+  // Close popover
+  const closePopover = () => {
+    setOpenPopoverId(null);
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>
       <Box>
-        {/* Filters */}
-        <Flex gap="md" mb="md" wrap="wrap">
-          <Box style={{ position: "relative", width: 220 }}>
-            <NumberInput
-              value={minAUM}
-              onChange={(value) => setMinAUM(value as number)}
-              label="Min Total AUM (In Millions)"
-              placeholder="Min AUM"
-              rightSection={
-                minAUM !== "" && (
-                  <ActionIcon onClick={resetMinAUM} variant="transparent">
-                    <IconX size={16} />
-                  </ActionIcon>
-                )
-              }
-            />
-          </Box>
-
-          <Box style={{ position: "relative", width: 220 }}>
-            <NumberInput
-              value={maxAUM}
-              onChange={(value) => setMaxAUM(value as number)}
-              label="Max Total AUM (In Millions)"
-              placeholder="Max AUM"
-              rightSection={
-                maxAUM !== "" && (
-                  <ActionIcon onClick={resetMaxAUM} variant="transparent">
-                    <IconX size={16} />
-                  </ActionIcon>
-                )
-              }
-            />
-          </Box>
-
-          <Box style={{ flex: 1 }} />
-
-          {/* Table actions */}
-          <Group>
-            <ActionIcon variant="light" onClick={openFullscreenModal}>
-              <IconArrowsMaximize size={20} />
-            </ActionIcon>
-
-            <ActionIcon variant="light">
-              <IconTable size={20} />
-            </ActionIcon>
-
-            <ActionIcon variant="light">
-              <IconFilter size={20} />
-            </ActionIcon>
-
-            <Menu position="bottom-end" shadow="md">
-              <Menu.Target>
-                <Button variant="light">
-                  Export <IconChevronDown size={16} />
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item onClick={() => exportData("csv")}>
-                  Export as CSV
-                </Menu.Item>
-                <Menu.Item onClick={() => exportData("excel")}>
-                  Export as Excel
-                </Menu.Item>
-                <Menu.Item onClick={() => exportData("pdf")}>
-                  Export as PDF
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </Group>
-        </Flex>
+        <Filters
+          minAUM={minAUM}
+          setMinAUM={setMinAUM}
+          maxAUM={maxAUM}
+          setMaxAUM={setMaxAUM}
+          openFullscreenModal={openFullscreenModal}
+          exportData={exportData}
+        />
 
         {/* Table */}
         <Box style={{ overflow: "auto", width: "100%" }}>
@@ -617,7 +614,13 @@ export function FirmSearchTable() {
                         borderBottom: "1px solid #dee2e6",
                       }}
                     >
-                      <DraggableColumnHeader header={header} table={table} />
+                      <DraggableColumnHeader
+                        header={header}
+                        table={table}
+                        openPopover={openPopover}
+                        closePopover={closePopover}
+                        isPopoverOpen={openPopoverId === header.column.id}
+                      />
 
                       {/* Resizer */}
                       {header.column.getCanResize() && (
@@ -658,10 +661,7 @@ export function FirmSearchTable() {
                         borderBottom: "1px solid #dee2e6",
                       }}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
                 </tr>
@@ -670,64 +670,7 @@ export function FirmSearchTable() {
           </Table>
         </Box>
 
-        {/* Pagination */}
-        <Flex justify="space-between" align="center" mt="md">
-          <Group gap="xs">
-            <Text size="sm">Rows Per Page</Text>
-            <Select
-              value={rowsPerPage}
-              onChange={(value) => handleRowsPerPageChange(value ?? "")}
-              data={[
-                { value: "10", label: "10" },
-                { value: "25", label: "25" },
-                { value: "50", label: "50" },
-                { value: "100", label: "100" },
-              ]}
-              style={{ width: 70 }}
-            />
-          </Group>
-
-          <Group>
-            <ActionIcon
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <IconChevronsLeft size={16} />
-            </ActionIcon>
-            <ActionIcon
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <IconArrowLeft size={16} />
-            </ActionIcon>
-
-            <Text size="sm">
-              {table.getState().pagination.pageIndex *
-                table.getState().pagination.pageSize +
-                1}
-              -
-              {Math.min(
-                (table.getState().pagination.pageIndex + 1) *
-                  table.getState().pagination.pageSize,
-                table.getFilteredRowModel().rows.length
-              )}{" "}
-              of {table.getFilteredRowModel().rows.length}
-            </Text>
-
-            <ActionIcon
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <IconArrowRight size={16} />
-            </ActionIcon>
-            <ActionIcon
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              <IconChevronsRight size={16} />
-            </ActionIcon>
-          </Group>
-        </Flex>
+        <Pagination table={table} />
       </Box>
     </DndProvider>
   );
