@@ -9,7 +9,7 @@ export interface IDesktopMenuItem {
 }
 
 export const noAuthMenuLinks: IDesktopMenuItem[] = [
-  { label: "Home", link: "#" },
+  { label: "Home", link: "/" },
   {
     label: "Mandates",
     link: "#",
