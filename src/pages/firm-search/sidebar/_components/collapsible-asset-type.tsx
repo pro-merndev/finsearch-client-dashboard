@@ -45,7 +45,7 @@ const CollapsibleAssetType = ({ isHidden }: { isHidden: string }) => {
       </Group>
       <Collapse in={opened}>
         <Divider color="gray.2" mt={10} mb={10} />
-        <Stack spacing={8}>
+        <Stack gap={8}>
           {assetTypes.map((type) => (
             <Checkbox
               key={type}

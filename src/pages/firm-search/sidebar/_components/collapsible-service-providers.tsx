@@ -39,7 +39,7 @@ const CollapsibleServiceProviders = ({ isHidden }: { isHidden: string }) => {
         <Text size="xs" fw={500} mb={8}>
           Provider Type
         </Text>
-        <Stack spacing={8}>
+        <Stack gap={8}>
           {providers.map((provider) => (
             <Checkbox
               key={provider}

@@ -39,7 +39,7 @@ const CollapsibleClient = ({ isHidden }: { isHidden: string }) => {
         <Text size="xs" fw={500} mb={8}>
           Client Type
         </Text>
-        <Stack spacing={8}>
+        <Stack gap={8}>
           {clientTypes.map((type) => (
             <Checkbox
               key={type}

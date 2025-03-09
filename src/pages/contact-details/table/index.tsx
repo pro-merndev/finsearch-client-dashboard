@@ -38,8 +38,8 @@ export function FirmSearchTable() {
   }, [page, pageSize]);
 
   // const [records, setRecords] = useState(sortBy(tableRecords, "name"));
-  const [withTableBorder, setWithTableBorder] = useState<boolean>(true);
-  const [withColumnBorders, setWithColumnBorders] = useState<boolean>(true);
+  const [withTableBorder] = useState<boolean>(true);
+  const [withColumnBorders] = useState<boolean>(true);
 
   useEffect(() => {
     const data = sortBy(
@@ -50,7 +50,7 @@ export function FirmSearchTable() {
   }, [sortStatus]);
 
 
-  const { effectiveColumns, resetColumnsOrder, resetColumnsWidth } =
+  const { effectiveColumns } =
     useDataTableColumns<TableRecordsType>({
       key,
       columns: columns,

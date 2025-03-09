@@ -1,131 +1,46 @@
-import type React from "react";
+import FilterLinesIcon from "@/components/icons/filter-lines-icon";
 import {
   ActionIcon,
   Box,
-  Button,
   Flex,
   Group,
-  Menu,
-  NumberInput,
   Popover,
   Select,
   Table,
   Text,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
 import {
-  IconAdjustmentsHorizontal,
   IconArrowDown,
   IconArrowLeft,
   IconArrowRight,
   IconArrowsHorizontal,
-  IconArrowsMaximize,
   IconArrowsUpDown,
   IconArrowUp,
-  IconChevronDown,
   IconChevronsLeft,
   IconChevronsRight,
   IconClearAll,
   IconEye,
   IconEyeOff,
-  IconFilter,
   IconGridDots,
-  IconTable,
-  IconX,
 } from "@tabler/icons-react";
 import {
-  createColumnHelper,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  type ColumnDef,
   type ColumnOrderState,
   type ColumnResizeMode,
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
+import type React from "react";
 import { useMemo, useRef, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import FilterLinesIcon from "@/components/icons/filter-lines-icon";
-
-// Define the data type
-interface Person {
-  id: string;
-  firstName: string;
-  location: string;
-  totalAUM: number;
-  individualAUM: number;
-}
-
-// Sample data
-const data: Person[] = [
-  {
-    id: "1",
-    firstName: "Roberta Roberts",
-    location: "Saint Louis, MO",
-    totalAUM: 489,
-    individualAUM: 450,
-  },
-  {
-    id: "2",
-    firstName: "Elmer Spencer",
-    location: "Saint Louis, MO",
-    totalAUM: 532,
-    individualAUM: 780,
-  },
-  {
-    id: "3",
-    firstName: "Marta McKenzie",
-    location: "Saint Louis, MO",
-    totalAUM: 415,
-    individualAUM: 320,
-  },
-  {
-    id: "4",
-    firstName: "Roman Terry",
-    location: "865 E Market Street",
-    totalAUM: 678,
-    individualAUM: 590,
-  },
-  {
-    id: "5",
-    firstName: "Sheri Raynor",
-    location: "1366 Bartholome Haven",
-    totalAUM: 250,
-    individualAUM: 210,
-  },
-  {
-    id: "6",
-    firstName: "Hugh Corkery",
-    location: "3273 Charles Street",
-    totalAUM: 390,
-    individualAUM: 850,
-  },
-  {
-    id: "7",
-    firstName: "Dolores Harvey",
-    location: "463 Orchard Road",
-    totalAUM: 512,
-    individualAUM: 670,
-  },
-  // Generate more data for pagination demo
-  ...Array.from({ length: 3232 }, (_, i) => ({
-    id: `${i + 8}`,
-    firstName: `Person ${i + 8}`,
-    location: `Location ${i % 10}`,
-    totalAUM: Math.floor(Math.random() * 800) + 200,
-    individualAUM: Math.floor(Math.random() * 800) + 200,
-  })),
-];
-
-// Column helper
-const columnHelper = createColumnHelper<any>();
+import { columns } from "./_columns";
+import { data } from "./_data";
 
 // Reorderable header component
 const DraggableColumnHeader = ({
@@ -339,96 +254,96 @@ const PopoverButton = ({
 );
 
 // Filter component
-const Filters = ({
-  minAUM,
-  setMinAUM,
-  maxAUM,
-  setMaxAUM,
-  openFullscreenModal,
-  exportData,
-}: {
-  minAUM: number | "";
-  setMinAUM: (value: number | "") => void;
-  maxAUM: number | "";
-  setMaxAUM: (value: number | "") => void;
-  openFullscreenModal: () => void;
-  exportData: (format: "csv" | "excel" | "pdf") => void;
-}) => {
-  const resetMinAUM = () => setMinAUM("");
-  const resetMaxAUM = () => setMaxAUM("");
+// const Filters = ({
+//   minAUM,
+//   setMinAUM,
+//   maxAUM,
+//   setMaxAUM,
+//   openFullscreenModal,
+//   exportData,
+// }: {
+//   minAUM: number | "";
+//   setMinAUM: (value: number | "") => void;
+//   maxAUM: number | "";
+//   setMaxAUM: (value: number | "") => void;
+//   openFullscreenModal: () => void;
+//   exportData: (format: "csv" | "excel" | "pdf") => void;
+// }) => {
+//   const resetMinAUM = () => setMinAUM("");
+//   const resetMaxAUM = () => setMaxAUM("");
 
-  return (
-    <Flex gap="md" mb="md" wrap="wrap">
-      <Box style={{ position: "relative", width: 220 }}>
-        <NumberInput
-          value={minAUM}
-          onChange={(value) => setMinAUM(value as number)}
-          label="Min Total AUM (In Millions)"
-          placeholder="Min AUM"
-          rightSection={
-            minAUM !== "" && (
-              <ActionIcon onClick={resetMinAUM} variant="transparent">
-                <IconX size={16} />
-              </ActionIcon>
-            )
-          }
-        />
-      </Box>
+//   return (
+//     <Flex gap="md" mb="md" wrap="wrap">
+//       <Box style={{ position: "relative", width: 220 }}>
+//         <NumberInput
+//           value={minAUM}
+//           onChange={(value) => setMinAUM(value as number)}
+//           label="Min Total AUM (In Millions)"
+//           placeholder="Min AUM"
+//           rightSection={
+//             minAUM !== "" && (
+//               <ActionIcon onClick={resetMinAUM} variant="transparent">
+//                 <IconX size={16} />
+//               </ActionIcon>
+//             )
+//           }
+//         />
+//       </Box>
 
-      <Box style={{ position: "relative", width: 220 }}>
-        <NumberInput
-          value={maxAUM}
-          onChange={(value) => setMaxAUM(value as number)}
-          label="Max Total AUM (In Millions)"
-          placeholder="Max AUM"
-          rightSection={
-            maxAUM !== "" && (
-              <ActionIcon onClick={resetMaxAUM} variant="transparent">
-                <IconX size={16} />
-              </ActionIcon>
-            )
-          }
-        />
-      </Box>
+//       <Box style={{ position: "relative", width: 220 }}>
+//         <NumberInput
+//           value={maxAUM}
+//           onChange={(value) => setMaxAUM(value as number)}
+//           label="Max Total AUM (In Millions)"
+//           placeholder="Max AUM"
+//           rightSection={
+//             maxAUM !== "" && (
+//               <ActionIcon onClick={resetMaxAUM} variant="transparent">
+//                 <IconX size={16} />
+//               </ActionIcon>
+//             )
+//           }
+//         />
+//       </Box>
 
-      <Box style={{ flex: 1 }} />
+//       <Box style={{ flex: 1 }} />
 
-      {/* Table actions */}
-      <Group>
-        <ActionIcon variant="light" onClick={openFullscreenModal}>
-          <IconArrowsMaximize size={20} />
-        </ActionIcon>
+//       {/* Table actions */}
+//       <Group>
+//         <ActionIcon variant="light" onClick={openFullscreenModal}>
+//           <IconArrowsMaximize size={20} />
+//         </ActionIcon>
 
-        <ActionIcon variant="light">
-          <IconTable size={20} />
-        </ActionIcon>
+//         <ActionIcon variant="light">
+//           <IconTable size={20} />
+//         </ActionIcon>
 
-        <ActionIcon variant="light">
-          <IconFilter size={20} />
-        </ActionIcon>
+//         <ActionIcon variant="light">
+//           <IconFilter size={20} />
+//         </ActionIcon>
 
-        <Menu position="bottom-end" shadow="md">
-          <Menu.Target>
-            <Button variant="light">
-              Export <IconChevronDown size={16} />
-            </Button>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item onClick={() => exportData("csv")}>
-              Export as CSV
-            </Menu.Item>
-            <Menu.Item onClick={() => exportData("excel")}>
-              Export as Excel
-            </Menu.Item>
-            <Menu.Item onClick={() => exportData("pdf")}>
-              Export as PDF
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      </Group>
-    </Flex>
-  );
-};
+//         <Menu position="bottom-end" shadow="md">
+//           <Menu.Target>
+//             <Button variant="light">
+//               Export <IconChevronDown size={16} />
+//             </Button>
+//           </Menu.Target>
+//           <Menu.Dropdown>
+//             <Menu.Item onClick={() => exportData("csv")}>
+//               Export as CSV
+//             </Menu.Item>
+//             <Menu.Item onClick={() => exportData("excel")}>
+//               Export as Excel
+//             </Menu.Item>
+//             <Menu.Item onClick={() => exportData("pdf")}>
+//               Export as PDF
+//             </Menu.Item>
+//           </Menu.Dropdown>
+//         </Menu>
+//       </Group>
+//     </Flex>
+//   );
+// };
 
 // Pagination component
 const Pagination = ({ table }: { table: any }) => {
@@ -508,65 +423,13 @@ export function FirmSearchTable() {
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
-  const [minAUM, setMinAUM] = useState<number | "">(200);
-  const [maxAUM, setMaxAUM] = useState<number | "">(500);
+  const [minAUM] = useState<number | "">(200);
+  const [maxAUM] = useState<number | "">(500);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState("25");
+  // const [rowsPerPage, setRowsPerPage] = useState("25");
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
   // Define columns
-  const columns = useMemo<ColumnDef<any>[]>(
-    () => [
-      columnHelper.accessor("firstName", {
-        header: () => (
-          <Text sx={{ fontSize: "14px" }} fw={600}>
-            First Name
-          </Text>
-        ),
-        cell: (info) => info.getValue(),
-        enableSorting: true,
-        footer: (info) => info.column.id,
-        enableHiding: true,
-      }),
-      columnHelper.accessor("location", {
-        header: () => (
-          <Text sx={{ fontSize: "14px" }} fw={600}>
-            Location
-          </Text>
-        ),
-        cell: (info) => info.getValue(),
-        enableSorting: true,
-        footer: (info) => info.column.id,
-        enableHiding: true,
-      }),
-      columnHelper.accessor("totalAUM", {
-        header: () => (
-          <Text sx={{ fontSize: "14px" }} fw={600}>
-            Total AUM (Millions)
-          </Text>
-        ),
-        cell: (info) => `$${info.getValue()}M`,
-        enableSorting: true,
-        filterFn: (row, columnId, filterValue) => {
-          const value = row.getValue(columnId) as number;
-          const [min, max] = filterValue as [number, number];
-          return value >= min && value <= max;
-        },
-        enableHiding: true,
-      }),
-      columnHelper.accessor("individualAUM", {
-        header: () => (
-          <Text sx={{ fontSize: "14px" }} fw={600}>
-            Individual AUM (Millions)
-          </Text>
-        ),
-        cell: (info) => `$${info.getValue()}M`,
-        enableSorting: true,
-        enableHiding: true,
-      }),
-    ],
-    []
-  );
 
   // Initialize column order if not set
   if (columnOrder.length === 0) {
@@ -605,45 +468,45 @@ export function FirmSearchTable() {
   });
 
   // Export data function
-  const exportData = (format: "csv" | "excel" | "pdf") => {
-    // In a real app, you would implement proper export functionality
-    // This is a simplified example
-    const exportFormats = {
-      csv: "text/csv",
-      excel:
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      pdf: "application/pdf",
-    };
+  // const exportData = (format: "csv" | "excel" | "pdf") => {
+  //   // In a real app, you would implement proper export functionality
+  //   // This is a simplified example
+  //   const exportFormats = {
+  //     csv: "text/csv",
+  //     excel:
+  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //     pdf: "application/pdf",
+  //   };
 
-    notifications.show({
-      title: "Export Started",
-      message: `Exporting data as ${format.toUpperCase()}...`,
-      color: "blue",
-    });
+  //   notifications.show({
+  //     title: "Export Started",
+  //     message: `Exporting data as ${format.toUpperCase()}...`,
+  //     color: "blue",
+  //   });
 
-    // Simulate export delay
-    setTimeout(() => {
-      notifications.show({
-        title: "Export Complete",
-        message: `Data has been exported as ${format.toUpperCase()}`,
-        color: "green",
-      });
-    }, 1500);
-  };
+  //   // Simulate export delay
+  //   setTimeout(() => {
+  //     notifications.show({
+  //       title: "Export Complete",
+  //       message: `Data has been exported as ${format.toUpperCase()}`,
+  //       color: "green",
+  //     });
+  //   }, 1500);
+  // };
 
   // Show fullscreen modal
-  const openFullscreenModal = () => {
-    modals.open({
-      title: "Client AUM Dashboard",
-      size: "xl",
-      fullScreen: true,
-      children: (
-        <Box p="md">
-          <FirmSearchTable />
-        </Box>
-      ),
-    });
-  };
+  // const openFullscreenModal = () => {
+  //   modals.open({
+  //     title: "Client AUM Dashboard",
+  //     size: "xl",
+  //     fullScreen: true,
+  //     children: (
+  //       <Box p="md">
+  //         <FirmSearchTable />
+  //       </Box>
+  //     ),
+  //   });
+  // };
 
   // Open popover
   const openPopover = (id: string) => {

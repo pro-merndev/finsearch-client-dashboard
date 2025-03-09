@@ -3,8 +3,6 @@ import {
   IconArrowsMaximize,
   IconChevronDown,
   IconFilter,
-  IconLayoutGrid,
-  IconMaximize,
   IconPlayerPause,
   IconX,
 } from "@tabler/icons-react";
@@ -96,26 +94,26 @@ const FilterInputs = () => {
         >
           <IconArrowsMaximize size={20} />
         </ActionIcon>
-          <ActionIcon
-            variant="default"
-            size="lg"
-            style={{
-              color: "#868E96",
-              border: "none",
-            }}
-          >
-            <IconPlayerPause size={20} />
-          </ActionIcon>
-          <ActionIcon
-            variant="default"
-            size="lg"
-            style={{
-              border: "none",
-              color: "#868E96",
-            }}
-          >
-            <IconFilter size={20} />
-          </ActionIcon>
+        <ActionIcon
+          variant="default"
+          size="lg"
+          style={{
+            color: "#868E96",
+            border: "none",
+          }}
+        >
+          <IconPlayerPause size={20} />
+        </ActionIcon>
+        <ActionIcon
+          variant="default"
+          size="lg"
+          style={{
+            border: "none",
+            color: "#868E96",
+          }}
+        >
+          <IconFilter size={20} />
+        </ActionIcon>
 
         <Button
           rightSection={<IconChevronDown size={16} />}

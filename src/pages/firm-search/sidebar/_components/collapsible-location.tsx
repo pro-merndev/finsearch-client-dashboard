@@ -60,7 +60,7 @@ const CollapsibleLocation = ({ isHidden }: { isHidden: string }) => {
             },
           }}
         />
-        <Stack spacing={8} style={{ maxHeight: "150px", overflowY: "auto" }}>
+        <Stack gap={8} style={{ maxHeight: "150px", overflowY: "auto" }}>
           {states.map((state) => (
             <Checkbox
               key={state}

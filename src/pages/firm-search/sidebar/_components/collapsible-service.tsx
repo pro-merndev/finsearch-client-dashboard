@@ -45,7 +45,7 @@ const CollapsibleService = ({ isHidden }: { isHidden: string }) => {
       </Group>
       <Collapse in={opened}>
         <Divider color="gray.2" mt={10} mb={10} />
-        <Stack spacing={8}>
+        <Stack gap={8}>
           {services.map((service) => (
             <Checkbox
               key={service}

@@ -1,58 +1,67 @@
-export type TableRecordsType = {
-    name: string
-    location: string
-    totalAum: string
-    individualAum: string
+export interface Person {
+  id: string;
+  firstName: string;
+  location: string;
+  totalAUM: number;
+  individualAUM: number;
 }
 
-
-export const tableRecords: TableRecordsType[] = [
-    {
-        name: "Elon Musk",
-        location: "Austin",
-        totalAum: "150b",
-        individualAum: "50b",
-    },
-    {
-        name: "Jeff Bezos",
-        location: "Seattle",
-        totalAum: "200b",
-        individualAum: "75b",
-    },
-    {
-        name: "Warren Buffett",
-        location: "Omaha",
-        totalAum: "120b",
-        individualAum: "80b",
-    },
-    {
-        name: "Bill Gates",
-        location: "Medina",
-        totalAum: "130b",
-        individualAum: "60b",
-    },
-    {
-        name: "Mark Zuckerberg",
-        location: "Palo Alto",
-        totalAum: "110b",
-        individualAum: "55b",
-    },
-    {
-        name: "Tim Cook",
-        location: "Cupertino",
-        totalAum: "95b",
-        individualAum: "40b",
-    },
-    {
-        name: "Sundar Pichai",
-        location: "Mountain View",
-        totalAum: "85b",
-        individualAum: "35b",
-    },
-    {
-        name: "Satya Nadella",
-        location: "Redmond",
-        totalAum: "90b",
-        individualAum: "45b",
-    },
-]
+export const data: Person[] = [
+  {
+    id: "1",
+    firstName: "Roberta Roberts",
+    location: "Saint Louis, MO",
+    totalAUM: 489,
+    individualAUM: 450,
+  },
+  {
+    id: "2",
+    firstName: "Elmer Spencer",
+    location: "Saint Louis, MO",
+    totalAUM: 532,
+    individualAUM: 780,
+  },
+  {
+    id: "3",
+    firstName: "Marta McKenzie",
+    location: "Saint Louis, MO",
+    totalAUM: 415,
+    individualAUM: 320,
+  },
+  {
+    id: "4",
+    firstName: "Roman Terry",
+    location: "865 E Market Street",
+    totalAUM: 678,
+    individualAUM: 590,
+  },
+  {
+    id: "5",
+    firstName: "Sheri Raynor",
+    location: "1366 Bartholome Haven",
+    totalAUM: 250,
+    individualAUM: 210,
+  },
+  {
+    id: "6",
+    firstName: "Hugh Corkery",
+    location: "3273 Charles Street",
+    totalAUM: 390,
+    individualAUM: 850,
+  },
+  {
+    id: "7",
+    firstName: "Dolores Harvey",
+    location: "463 Orchard Road",
+    totalAUM: 512,
+    individualAUM: 670,
+  },
+  // Generate more data for pagination demo
+  ...Array.from({ length: 3232 }, (_, i) => ({
+    id: `${i + 8}`,
+    firstName: `Person ${i + 8}`,
+    location: `Location ${i % 10}`,
+    totalAUM: Math.floor(Math.random() * 800) + 200,
+    individualAUM: Math.floor(Math.random() * 800) + 200,
+  })),
+];
