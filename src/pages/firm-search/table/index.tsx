@@ -549,7 +549,7 @@ export function FirmSearchTable() {
       title: "Client AUM Dashboard",
       size: "xl",
       fullScreen: true,
-      children: <Box p="md">{/* <DataTable /> */}</Box>,
+      children: <Box p="md"><FirmSearchTable /></Box>,
     });
   };
 
