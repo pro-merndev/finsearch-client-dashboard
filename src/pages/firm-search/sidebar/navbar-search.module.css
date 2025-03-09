@@ -1,0 +1,20 @@
+.navbar {
+  width: 300px;
+  /* height: 100vh; */
+  padding: 0 16px;
+  border-right: 1px solid #dee2e6;
+  transition: width 0.3s ease;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.collapsed {
+  width: 60px;
+  padding: 0 8px;
+}
+
+.expanded {
+  width: 300px;
+}
+
