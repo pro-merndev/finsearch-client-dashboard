@@ -2,6 +2,7 @@ import { Box, Flex, Text, Group, Anchor } from "@mantine/core"
 import { IconBriefcase } from "@tabler/icons-react"
 import classes from "./advisor-header.module.css"
 
+
 export default function AdvisorHeader() {
   return (
     <Box className={classes.headerContainer} sx={{
