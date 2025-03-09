@@ -28,10 +28,10 @@ import {
   IconChevronsLeft,
   IconChevronsRight,
   IconClearAll,
-  IconDots,
   IconEye,
   IconEyeOff,
   IconFilter,
+  IconGridDots,
   IconTable,
   IconX,
 } from "@tabler/icons-react";
@@ -52,6 +52,7 @@ import {
 import { useMemo, useRef, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import FilterLinesIcon from "@/components/icons/filter-lines-icon";
 
 // Define the data type
 interface Person {
@@ -127,7 +128,19 @@ const data: Person[] = [
 const columnHelper = createColumnHelper<any>();
 
 // Reorderable header component
-const DraggableColumnHeader = ({ header, table, openPopover, closePopover, isPopoverOpen }: { header: any; table: any; openPopover: (id: string) => void; closePopover: () => void; isPopoverOpen: boolean }) => {
+const DraggableColumnHeader = ({
+  header,
+  table,
+  openPopover,
+  closePopover,
+  isPopoverOpen,
+}: {
+  header: any;
+  table: any;
+  openPopover: (id: string) => void;
+  closePopover: () => void;
+  isPopoverOpen: boolean;
+}) => {
   const { getState, setColumnOrder } = table;
   const { columnOrder } = getState();
   const { column } = header;
@@ -220,14 +233,17 @@ const DraggableColumnHeader = ({ header, table, openPopover, closePopover, isPop
         >
           {flexRender(header.column.columnDef.header, header.getContext())}
           <div style={{ marginLeft: 4 }}>
-            <IconArrowsUpDown size={16} opacity={column.getIsSorted() ? 1 : 0.5} />
+            <IconArrowsUpDown
+              size={13}
+              opacity={column.getIsSorted() ? 1 : 0.5}
+            />
           </div>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <div style={{ cursor: "pointer" }}>
-          <IconDots size={16} style={{ opacity: 0.5 }} />
+          <IconGridDots size={13} />
         </div>
         <div ref={popoverRef} style={{ cursor: "pointer" }}>
           <Popover
@@ -239,18 +255,48 @@ const DraggableColumnHeader = ({ header, table, openPopover, closePopover, isPop
             withinPortal
           >
             <Popover.Target>
-              <div onClick={() => (isPopoverOpen ? closePopover() : openPopover(column.id))}>
-                <IconAdjustmentsHorizontal size={16} style={{ opacity: 0.5 }} />
+              <div
+                onClick={() =>
+                  isPopoverOpen ? closePopover() : openPopover(column.id)
+                }
+              >
+                <FilterLinesIcon size={16} />
               </div>
             </Popover.Target>
             <Popover.Dropdown p={0}>
               <div style={{ padding: "8px 0" }}>
-                <PopoverButton onClick={() => sortColumn(false)} icon={<IconClearAll size={16} />} text="Clear Sort" />
-                <PopoverButton onClick={() => sortColumn("asc")} icon={<IconArrowUp size={16} />} text={`Sort by ${column.id} ascending`} isBold={column.getIsSorted() === "asc"} />
-                <PopoverButton onClick={() => sortColumn("desc")} icon={<IconArrowDown size={16} />} text={`Sort by ${column.id} descending`} isBold={column.getIsSorted() === "desc"} />
-                <PopoverButton onClick={resetColumnSize} icon={<IconArrowsHorizontal size={16} />} text="Reset column size" />
-                <PopoverButton onClick={toggleColumnVisibility} icon={<IconEyeOff size={16} />} text={`Hide ${column.id} column`} />
-                <PopoverButton onClick={showAllColumns} icon={<IconEye size={16} />} text="Show all columns" />
+                <PopoverButton
+                  onClick={() => sortColumn(false)}
+                  icon={<IconClearAll size={14} />}
+                  text="Clear Sort"
+                />
+                <PopoverButton
+                  onClick={() => sortColumn("asc")}
+                  icon={<IconArrowUp size={14} />}
+                  text={`Sort by ${column.id} ascending`}
+                  isBold={column.getIsSorted() === "asc"}
+                />
+                <PopoverButton
+                  onClick={() => sortColumn("desc")}
+                  icon={<IconArrowDown size={14} />}
+                  text={`Sort by ${column.id} descending`}
+                  isBold={column.getIsSorted() === "desc"}
+                />
+                <PopoverButton
+                  onClick={resetColumnSize}
+                  icon={<IconArrowsHorizontal size={14} />}
+                  text="Reset column size"
+                />
+                <PopoverButton
+                  onClick={toggleColumnVisibility}
+                  icon={<IconEyeOff size={14} />}
+                  text={`Hide ${column.id} column`}
+                />
+                <PopoverButton
+                  onClick={showAllColumns}
+                  icon={<IconEye size={14} />}
+                  text="Show all columns"
+                />
               </div>
             </Popover.Dropdown>
           </Popover>
@@ -260,7 +306,17 @@ const DraggableColumnHeader = ({ header, table, openPopover, closePopover, isPop
   );
 };
 
-const PopoverButton = ({ onClick, icon, text, isBold }: { onClick: () => void; icon: React.ReactNode; text: string; isBold?: boolean }) => (
+const PopoverButton = ({
+  onClick,
+  icon,
+  text,
+  isBold,
+}: {
+  onClick: () => void;
+  icon: React.ReactNode;
+  text: string;
+  isBold?: boolean;
+}) => (
   <button
     onClick={onClick}
     style={{
@@ -274,6 +330,7 @@ const PopoverButton = ({ onClick, icon, text, isBold }: { onClick: () => void; i
       cursor: "pointer",
       textAlign: "left",
       fontWeight: isBold ? "bold" : "normal",
+      fontSize: "14px",
     }}
   >
     {icon}
@@ -357,9 +414,15 @@ const Filters = ({
             </Button>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item onClick={() => exportData("csv")}>Export as CSV</Menu.Item>
-            <Menu.Item onClick={() => exportData("excel")}>Export as Excel</Menu.Item>
-            <Menu.Item onClick={() => exportData("pdf")}>Export as PDF</Menu.Item>
+            <Menu.Item onClick={() => exportData("csv")}>
+              Export as CSV
+            </Menu.Item>
+            <Menu.Item onClick={() => exportData("excel")}>
+              Export as Excel
+            </Menu.Item>
+            <Menu.Item onClick={() => exportData("pdf")}>
+              Export as PDF
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>
@@ -394,20 +457,26 @@ const Pagination = ({ table }: { table: any }) => {
         <ActionIcon
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
+          variant="default"
         >
           <IconChevronsLeft size={16} />
         </ActionIcon>
         <ActionIcon
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
+          variant="default"
         >
           <IconArrowLeft size={16} />
         </ActionIcon>
 
         <Text size="sm">
-          {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
+          {table.getState().pagination.pageIndex *
+            table.getState().pagination.pageSize +
+            1}
+          -
           {Math.min(
-            (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+            (table.getState().pagination.pageIndex + 1) *
+              table.getState().pagination.pageSize,
             table.getFilteredRowModel().rows.length
           )}{" "}
           of {table.getFilteredRowModel().rows.length}
@@ -416,12 +485,14 @@ const Pagination = ({ table }: { table: any }) => {
         <ActionIcon
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
+          variant="default"
         >
           <IconArrowRight size={16} />
         </ActionIcon>
         <ActionIcon
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
+          variant="default"
         >
           <IconChevronsRight size={16} />
         </ActionIcon>
@@ -447,21 +518,33 @@ export function FirmSearchTable() {
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
       columnHelper.accessor("firstName", {
-        header: () => <Text fw={600}>First Name</Text>,
+        header: () => (
+          <Text sx={{ fontSize: "14px" }} fw={600}>
+            First Name
+          </Text>
+        ),
         cell: (info) => info.getValue(),
         enableSorting: true,
         footer: (info) => info.column.id,
         enableHiding: true,
       }),
       columnHelper.accessor("location", {
-        header: () => <Text fw={600}>Location</Text>,
+        header: () => (
+          <Text sx={{ fontSize: "14px" }} fw={600}>
+            Location
+          </Text>
+        ),
         cell: (info) => info.getValue(),
         enableSorting: true,
         footer: (info) => info.column.id,
         enableHiding: true,
       }),
       columnHelper.accessor("totalAUM", {
-        header: () => <Text fw={600}>Total AUM (Millions)</Text>,
+        header: () => (
+          <Text sx={{ fontSize: "14px" }} fw={600}>
+            Total AUM (Millions)
+          </Text>
+        ),
         cell: (info) => `$${info.getValue()}M`,
         enableSorting: true,
         filterFn: (row, columnId, filterValue) => {
@@ -472,7 +555,11 @@ export function FirmSearchTable() {
         enableHiding: true,
       }),
       columnHelper.accessor("individualAUM", {
-        header: () => <Text fw={600}>Individual AUM (Millions)</Text>,
+        header: () => (
+          <Text sx={{ fontSize: "14px" }} fw={600}>
+            Individual AUM (Millions)
+          </Text>
+        ),
         cell: (info) => `$${info.getValue()}M`,
         enableSorting: true,
         enableHiding: true,
@@ -523,7 +610,8 @@ export function FirmSearchTable() {
     // This is a simplified example
     const exportFormats = {
       csv: "text/csv",
-      excel: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      excel:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       pdf: "application/pdf",
     };
 
@@ -549,7 +637,11 @@ export function FirmSearchTable() {
       title: "Client AUM Dashboard",
       size: "xl",
       fullScreen: true,
-      children: <Box p="md"><FirmSearchTable /></Box>,
+      children: (
+        <Box p="md">
+          <FirmSearchTable />
+        </Box>
+      ),
     });
   };
 
@@ -566,17 +658,24 @@ export function FirmSearchTable() {
   return (
     <DndProvider backend={HTML5Backend}>
       <Box>
-        <Filters
+        {/* <Filters
           minAUM={minAUM}
           setMinAUM={setMinAUM}
           maxAUM={maxAUM}
           setMaxAUM={setMaxAUM}
           openFullscreenModal={openFullscreenModal}
           exportData={exportData}
-        />
+        /> */}
 
         {/* Table */}
-        <Box style={{ overflow: "auto", width: "100%" }}>
+        <Box
+          style={{
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+            overflow: "auto",
+            width: "100%",
+          }}
+        >
           <Table
             striped
             highlightOnHover
@@ -585,6 +684,7 @@ export function FirmSearchTable() {
               width: "100%",
               borderCollapse: "separate",
               bordergap: 0,
+              borderTop: "20px",
             }}
             sx={{
               "th, td": {
@@ -661,7 +761,10 @@ export function FirmSearchTable() {
                         borderBottom: "1px solid #dee2e6",
                       }}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
                   ))}
                 </tr>

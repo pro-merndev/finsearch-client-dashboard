@@ -1,28 +1,37 @@
-import { ActionIcon, Box, Button, Group, TextInput } from "@mantine/core"
-import { IconChevronDown, IconFilter, IconLayoutGrid, IconMaximize, IconX } from "@tabler/icons-react"
-import { useState } from "react"
+import { ActionIcon, Box, Button, Group, TextInput } from "@mantine/core";
+import {
+  IconArrowsMaximize,
+  IconChevronDown,
+  IconFilter,
+  IconLayoutGrid,
+  IconMaximize,
+  IconPlayerPause,
+  IconX,
+} from "@tabler/icons-react";
+import { useState } from "react";
 
 const FilterInputs = () => {
   // Filter states
-  const [minAUM, setMinAUM] = useState("200")
-  const [maxAUM, setMaxAUM] = useState("500")
+  const [minAUM, setMinAUM] = useState("200");
+  const [maxAUM, setMaxAUM] = useState("500");
 
   // Handle clearing min AUM filter
   const clearMinAUM = () => {
-    setMinAUM("")
-  }
+    setMinAUM("");
+  };
 
   // Handle clearing max AUM filter
   const clearMaxAUM = () => {
-    setMaxAUM("")
-  }
+    setMaxAUM("");
+  };
 
   // Common styles for rounded elements
   const roundedStyle = {
-    borderRadius: "20px",
-    backgroundColor: "#f1f3f5",
-    color: "#212529",
-  }
+    // borderRadius: "20px",
+    // backgroundColor: "#f1f3f5",
+    color: "#868E96",
+    border: "none",
+  };
 
   return (
     <Group mb="md" align="flex-start">
@@ -44,7 +53,7 @@ const FilterInputs = () => {
           rightSection={
             minAUM ? (
               <ActionIcon onClick={clearMinAUM} variant="transparent">
-                <IconX style={{color:"#212529"}} size={16} />
+                <IconX style={{ color: "#212529" }} size={16} />
               </ActionIcon>
             ) : null
           }
@@ -69,7 +78,7 @@ const FilterInputs = () => {
           rightSection={
             maxAUM ? (
               <ActionIcon onClick={clearMaxAUM} variant="transparent">
-                <IconX style={{color:"#212529"}} size={16} />
+                <IconX style={{ color: "#212529" }} size={16} />
               </ActionIcon>
             ) : null
           }
@@ -82,48 +91,37 @@ const FilterInputs = () => {
           size="lg"
           style={{
             ...roundedStyle,
-            borderRadius: "50%",
+            // borderRadius: "50%",
           }}
         >
-          <IconMaximize size={20} />
+          <IconArrowsMaximize size={20} />
         </ActionIcon>
-
-        <Group gap={0}>
           <ActionIcon
             variant="default"
             size="lg"
             style={{
-              borderRight: 0,
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-              backgroundColor: "#f1f3f5",
-              color: "#212529",
+              color: "#868E96",
+              border: "none",
             }}
           >
-            <IconLayoutGrid size={20} />
+            <IconPlayerPause size={20} />
           </ActionIcon>
           <ActionIcon
             variant="default"
             size="lg"
             style={{
-              borderLeft: 0,
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-              backgroundColor: "#f1f3f5",
-              color: "#212529",
+              border: "none",
+              color: "#868E96",
             }}
           >
             <IconFilter size={20} />
           </ActionIcon>
-        </Group>
 
         <Button
           rightSection={<IconChevronDown size={16} />}
           variant="default"
           styles={{
             root: {
-              borderRadius: "20px",
-              backgroundColor: "#f1f3f5",
               color: "#212529",
               border: "1px solid #dee2e6",
               "&:hover": {
@@ -136,8 +134,7 @@ const FilterInputs = () => {
         </Button>
       </Group>
     </Group>
-  )
-}
+  );
+};
 
-export default FilterInputs
-
+export default FilterInputs;
