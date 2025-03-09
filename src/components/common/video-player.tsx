@@ -22,6 +22,7 @@ interface VideoPlayerProps {
   date?: string;
   style?: CSSProperties;
   className?: string;
+  hideShare?: boolean;
 }
 
 export default function VideoPlayer({
@@ -33,6 +34,7 @@ export default function VideoPlayer({
   date = "Feb 3, 2025",
   style = {},
   className = "",
+  hideShare = false,
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -91,6 +93,7 @@ export default function VideoPlayer({
       radius="md"
       withBorder
       p={0}
+      
     >
       <video
         ref={videoRef}
@@ -113,11 +116,13 @@ export default function VideoPlayer({
         zIndex={1}
       />
 
-      <UnstyledButton
-        style={{ position: "absolute", top: 16, right: 16, zIndex: 2 }}
-      >
-        <ShareCircleIcon />
-      </UnstyledButton>
+      {!hideShare && (
+        <UnstyledButton
+          style={{ position: "absolute", top: 16, right: 16, zIndex: 2 }}
+        >
+          <ShareCircleIcon />
+        </UnstyledButton>
+      )}
 
       <Center
         style={{
