@@ -1,19 +1,17 @@
-"use client"
-
 import { Box, Divider, Flex, Group, Text, UnstyledButton } from "@mantine/core"
 import { IconLayoutSidebarLeftCollapse } from "@tabler/icons-react"
 import { useState } from "react"
-import CollapsibleFirm from "./_components/collapsible-firm"
-import CollapsibleClient from "./_components/collapsible-client"
-import CollapsibleLocation from "./_components/collapsible-location"
-import CollapsibleServiceProviders from "./_components/collapsible-service-providers"
-import CollapsibleAssetType from "./_components/collapsible-asset-type"
-import CollapsibleCompensationType from "./_components/collapsible-compensation-type"
-import CollapsibleService from "./_components/collapsible-service"
+import CollapsibleFirm from "./collapsible-firm"
+import CollapsibleClient from "./collapsible-client"
+import CollapsibleLocation from "./collapsible-location"
+import CollapsibleServiceProviders from "./collapsible-service-providers"
+import CollapsibleAssetType from "./collapsible-asset-type"
+import CollapsibleCompensationType from "./collapsible-compensation-type"
+import CollapsibleService from "./collapsible-service"
 import classes from "./navbar-search.module.css"
-import CollapsibleAUM from "./_components/collapsible-aum"
+import CollapsibleAUM from "./collapsible-aum"
 
-export function Sidebar() {
+function Sidebar() {
   const [expanded, setExpanded] = useState(true)
 
   const toggleSidebar = () => {
@@ -64,3 +62,4 @@ export function Sidebar() {
   )
 }
 
+export default Sidebar

@@ -1,12 +1,21 @@
 "use client"
 
-import { Box, Divider, Collapse, Group, Text, TextInput, Checkbox, Stack } from "@mantine/core"
+import { Box, Divider, Collapse, Group, Text, Checkbox, Stack } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { IconChevronDown } from "@tabler/icons-react"
 
-const firmTypes = ["RIA", "Broker-Dealer", "Hybrid", "Bank", "Trust Company", "Family Office"]
+const services = [
+  "Financial Planning",
+  "Investment Management",
+  "Retirement Planning",
+  "Estate Planning",
+  "Tax Planning",
+  "Insurance",
+  "Wealth Management",
+  "Business Planning",
+]
 
-const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
+const CollapsibleService = ({ isHidden }: { isHidden: string }) => {
   const [opened, { toggle }] = useDisclosure(false)
 
   return (
@@ -23,7 +32,7 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
     >
       <Group justify="space-between" align="center" onClick={toggle}>
         <Text size="xs" fw={500}>
-          Firm
+          Service
         </Text>
         <IconChevronDown
           size="16"
@@ -36,14 +45,11 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
       </Group>
       <Collapse in={opened}>
         <Divider color="gray.2" mt={10} mb={10} />
-        <Text size="xs" fw={500} mb={8}>
-          Firm Type
-        </Text>
-        <Stack gap={8}>
-          {firmTypes.map((type) => (
+        <Stack spacing={8}>
+          {services.map((service) => (
             <Checkbox
-              key={type}
-              label={type}
+              key={service}
+              label={service}
               size="xs"
               styles={{
                 label: { fontSize: "12px" },
@@ -51,23 +57,10 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
             />
           ))}
         </Stack>
-        <Divider color="gray.2" my={10} />
-        <Text size="xs" fw={500} mb={8}>
-          Firm Name
-        </Text>
-        <TextInput
-          size="xs"
-          placeholder="Search firm name"
-          styles={{
-            input: {
-              fontSize: "12px",
-            },
-          }}
-        />
       </Collapse>
     </Box>
   )
 }
 
-export default CollapsibleFirm
+export default CollapsibleService
 

@@ -1,6 +1,6 @@
 .navbar {
   width: 300px;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 0 16px;
   border-right: 1px solid #dee2e6;
   transition: width 0.3s ease;

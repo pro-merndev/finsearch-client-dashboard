@@ -4,9 +4,9 @@ import { Box, Divider, Collapse, Group, Text, TextInput, Checkbox, Stack } from 
 import { useDisclosure } from "@mantine/hooks"
 import { IconChevronDown } from "@tabler/icons-react"
 
-const firmTypes = ["RIA", "Broker-Dealer", "Hybrid", "Bank", "Trust Company", "Family Office"]
+const providers = ["Custodian", "Broker", "Investment Manager", "Consultant", "Administrator", "Auditor"]
 
-const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
+const CollapsibleServiceProviders = ({ isHidden }: { isHidden: string }) => {
   const [opened, { toggle }] = useDisclosure(false)
 
   return (
@@ -23,7 +23,7 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
     >
       <Group justify="space-between" align="center" onClick={toggle}>
         <Text size="xs" fw={500}>
-          Firm
+          Service Providers
         </Text>
         <IconChevronDown
           size="16"
@@ -37,13 +37,13 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
       <Collapse in={opened}>
         <Divider color="gray.2" mt={10} mb={10} />
         <Text size="xs" fw={500} mb={8}>
-          Firm Type
+          Provider Type
         </Text>
         <Stack gap={8}>
-          {firmTypes.map((type) => (
+          {providers.map((provider) => (
             <Checkbox
-              key={type}
-              label={type}
+              key={provider}
+              label={provider}
               size="xs"
               styles={{
                 label: { fontSize: "12px" },
@@ -53,11 +53,11 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
         </Stack>
         <Divider color="gray.2" my={10} />
         <Text size="xs" fw={500} mb={8}>
-          Firm Name
+          Provider Name
         </Text>
         <TextInput
           size="xs"
-          placeholder="Search firm name"
+          placeholder="Search provider name"
           styles={{
             input: {
               fontSize: "12px",
@@ -69,5 +69,5 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
   )
 }
 
-export default CollapsibleFirm
+export default CollapsibleServiceProviders
 

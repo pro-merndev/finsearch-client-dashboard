@@ -4,9 +4,9 @@ import { Box, Divider, Collapse, Group, Text, TextInput, Checkbox, Stack } from 
 import { useDisclosure } from "@mantine/hooks"
 import { IconChevronDown } from "@tabler/icons-react"
 
-const firmTypes = ["RIA", "Broker-Dealer", "Hybrid", "Bank", "Trust Company", "Family Office"]
+const clientTypes = ["Individual", "Institution", "Retirement Plan", "Foundation", "Endowment"]
 
-const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
+const CollapsibleClient = ({ isHidden }: { isHidden: string }) => {
   const [opened, { toggle }] = useDisclosure(false)
 
   return (
@@ -23,7 +23,7 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
     >
       <Group justify="space-between" align="center" onClick={toggle}>
         <Text size="xs" fw={500}>
-          Firm
+          Client
         </Text>
         <IconChevronDown
           size="16"
@@ -37,10 +37,10 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
       <Collapse in={opened}>
         <Divider color="gray.2" mt={10} mb={10} />
         <Text size="xs" fw={500} mb={8}>
-          Firm Type
+          Client Type
         </Text>
         <Stack gap={8}>
-          {firmTypes.map((type) => (
+          {clientTypes.map((type) => (
             <Checkbox
               key={type}
               label={type}
@@ -53,11 +53,11 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
         </Stack>
         <Divider color="gray.2" my={10} />
         <Text size="xs" fw={500} mb={8}>
-          Firm Name
+          Client Name
         </Text>
         <TextInput
           size="xs"
-          placeholder="Search firm name"
+          placeholder="Search client name"
           styles={{
             input: {
               fontSize: "12px",
@@ -69,5 +69,5 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
   )
 }
 
-export default CollapsibleFirm
+export default CollapsibleClient
 

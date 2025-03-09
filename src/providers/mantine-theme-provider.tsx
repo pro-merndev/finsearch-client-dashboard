@@ -1,7 +1,8 @@
 import { createTheme, MantineProvider } from "@mantine/core";
 import { emotionTransform, MantineEmotionProvider } from "@mantine/emotion";
 import { ReactNode } from "react";
-
+import '@mantine/core/styles.layer.css';
+import 'mantine-datatable/styles.layer.css';
 const theme = createTheme({
   colors: {},
 

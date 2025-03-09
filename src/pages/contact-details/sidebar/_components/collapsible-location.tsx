@@ -4,9 +4,20 @@ import { Box, Divider, Collapse, Group, Text, TextInput, Checkbox, Stack } from 
 import { useDisclosure } from "@mantine/hooks"
 import { IconChevronDown } from "@tabler/icons-react"
 
-const firmTypes = ["RIA", "Broker-Dealer", "Hybrid", "Bank", "Trust Company", "Family Office"]
+const states = [
+  "Alabama",
+  "Alaska",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "Florida",
+  "Georgia",
+]
 
-const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
+const CollapsibleLocation = ({ isHidden }: { isHidden: string }) => {
   const [opened, { toggle }] = useDisclosure(false)
 
   return (
@@ -23,7 +34,7 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
     >
       <Group justify="space-between" align="center" onClick={toggle}>
         <Text size="xs" fw={500}>
-          Firm
+          Location
         </Text>
         <IconChevronDown
           size="16"
@@ -37,13 +48,23 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
       <Collapse in={opened}>
         <Divider color="gray.2" mt={10} mb={10} />
         <Text size="xs" fw={500} mb={8}>
-          Firm Type
+          State
         </Text>
-        <Stack gap={8}>
-          {firmTypes.map((type) => (
+        <TextInput
+          size="xs"
+          placeholder="Search states"
+          mb={10}
+          styles={{
+            input: {
+              fontSize: "12px",
+            },
+          }}
+        />
+        <Stack spacing={8} style={{ maxHeight: "150px", overflowY: "auto" }}>
+          {states.map((state) => (
             <Checkbox
-              key={type}
-              label={type}
+              key={state}
+              label={state}
               size="xs"
               styles={{
                 label: { fontSize: "12px" },
@@ -53,11 +74,11 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
         </Stack>
         <Divider color="gray.2" my={10} />
         <Text size="xs" fw={500} mb={8}>
-          Firm Name
+          City
         </Text>
         <TextInput
           size="xs"
-          placeholder="Search firm name"
+          placeholder="Search cities"
           styles={{
             input: {
               fontSize: "12px",
@@ -69,5 +90,5 @@ const CollapsibleFirm = ({ isHidden }: { isHidden: string }) => {
   )
 }
 
-export default CollapsibleFirm
+export default CollapsibleLocation
 

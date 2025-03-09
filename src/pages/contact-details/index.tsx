@@ -3,7 +3,7 @@ import { Sidebar } from "./sidebar";
 import { FirmSearchTable } from "./table";
 import FilterInputs from "./table/_components/filter-inputs";
 
-const FirmSearch = () => {
+const ContactDetails = () => {
   return (
     <main>
       <Flex direction={{ base: "row" }} justify={"space-between"} mb={20}>
@@ -30,4 +30,4 @@ const FirmSearch = () => {
   );
 };
 
-export default FirmSearch;
+export default ContactDetails;

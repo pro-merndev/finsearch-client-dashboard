@@ -1,4 +1,5 @@
 import MainDashboardLayout from "@/layouts/main-dashboard";
+import ContactDetails from "@/pages/contact-details";
 import ErrorPage from "@/pages/error";
 import FirmSearch from "@/pages/firm-search";
 import HomePage from "@/pages/home";
@@ -18,6 +19,12 @@ const router = createBrowserRouter([
         path: "/firm-search",
         element: <FirmSearch />,
       },
+      {
+        path: "/contact-details",
+        // element: <DashboardLayout />,
+        element: <ContactDetails />,
+      },
+
     ],
   },
 ]);
