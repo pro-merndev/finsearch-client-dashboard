@@ -1,5 +1,11 @@
+import { Link } from "react-router";
+
 const Logo = () => {
-  return <img src="/logo.png" alt="logo" />;
+  return (
+    <Link to="/">
+      <img src="/logo.png" alt="logo" />
+    </Link>
+  );
 };
 
 export default Logo;
