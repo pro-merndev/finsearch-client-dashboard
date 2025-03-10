@@ -6,12 +6,12 @@ import {
   IconPlayerPause,
   IconX,
 } from "@tabler/icons-react";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import * as XLSX from "xlsx";
 
-const Toolbar = ({
-  table,
-}: {
-  table: any;
-}) => {
+const Toolbar = ({ table }: { table: any }) => {
   // Handle clearing min AUM filter
   const clearMinAUM = () => {
     table.getColumn("totalAUM")?.setFilterValue((old: any) => ({
@@ -28,9 +28,48 @@ const Toolbar = ({
     }));
   };
 
-  // Handle exporting data
   const exportData = (format: "csv" | "excel" | "pdf") => {
-    console.log(`Exporting data in ${format} format`);
+    const data = table.getRowModel().rows.map((row: any) => row.original);
+
+    if (!data || data.length === 0) {
+      console.error("No data available to export.");
+      return;
+    }
+
+    if (format === "csv") {
+      const headers = Object.keys(data[0]).join(",") + "\n";
+      const csvContent =
+        headers +
+        data
+          .map((row: any) =>
+            Object.values(row)
+              .map((value: any) =>
+                typeof value === "object" ? JSON.stringify(value) : value
+              )
+              .join(",")
+          )
+          .join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      saveAs(blob, "data.csv");
+    } else if (format === "excel") {
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "data.xlsx");
+    } else if (format === "pdf") {
+      const doc = new jsPDF();
+      const headers = Object.keys(data[0]);
+      const rows = data.map((row: any) =>
+        headers.map((header) => row[header] ?? "")
+      );
+      autoTable(doc, { html: "#my-table" });
+      autoTable(doc, {
+        head: [headers],
+        body: [rows],
+      });
+      doc.save("data.pdf");
+    }
   };
 
   return (
