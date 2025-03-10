@@ -1,4 +1,13 @@
-import { ActionIcon, Box, Button, Group, Menu, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Group,
+  Menu,
+  Switch,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import {
   IconArrowsMaximize,
   IconChevronDown,
@@ -70,6 +79,17 @@ const Toolbar = ({ table }: { table: any }) => {
       });
       doc.save("data.pdf");
     }
+  };
+
+  const isColumnVisible = (columnId: string) => {
+    return table.getColumn(columnId)?.getIsVisible();
+  };
+
+  const toggleColumnVisibility = (columnId: string, isVisible: boolean) => {
+    table.setColumnVisibility((prev : any) => ({
+      ...prev,
+      [columnId]: isVisible,
+    }));
   };
 
   return (
@@ -173,16 +193,65 @@ const Toolbar = ({ table }: { table: any }) => {
           >
             <IconArrowsMaximize size={20} />
           </ActionIcon>
-          <ActionIcon
-            variant="default"
-            size="lg"
-            style={{
-              color: "#868E96",
-              border: "none",
-            }}
-          >
-            <IconPlayerPause size={20} />
-          </ActionIcon>
+          <Menu position="bottom-end" shadow="md">
+            <Menu.Target>
+              <ActionIcon
+                variant="default"
+                size="lg"
+                style={{
+                  color: "#868E96",
+                  border: "none",
+                }}
+              >
+                <IconPlayerPause size={20} />
+              </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Group justify="space-between" mb="xs">
+                <Button
+                  variant="subtle"
+                  size="xs"
+                  onClick={() => table.toggleAllColumnsVisible(true)}
+                >
+                  Show All
+                </Button>
+                <Button
+                  variant="subtle"
+                  size="xs"
+                  onClick={() => table.toggleAllColumnsVisible(false)}
+                >
+                  Hide All
+                </Button>
+              </Group>
+
+              {table.getAllColumns().map((column: any) => (
+                <Menu.Item
+                  key={column.id}
+                  onClick={() => column.toggleVisibility()}
+                >
+                  <Group
+                    key={column.id || column.label}
+                    justify="space-between"
+                    wrap="nowrap"
+                  >
+                    <Switch
+                      size="xs"
+                      color="blue"
+                      defaultChecked={isColumnVisible(column.id)}
+                      onChange={(event) => {
+                        const isChecked = event.currentTarget.checked;
+                        toggleColumnVisibility(column.id, isChecked);
+                      }}
+                    />
+                    <Text size="sm" c="dimmed">
+                      {column.id || column.label}
+                    </Text>
+                  </Group>
+                </Menu.Item>
+              ))}
+            </Menu.Dropdown>
+          </Menu>
           <ActionIcon
             variant="default"
             size="lg"
