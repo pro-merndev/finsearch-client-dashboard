@@ -10,6 +10,7 @@ import CollapsibleAssetType from "./_components/collapsible-asset-type";
 import CollapsibleService from "./_components/collapsible-service";
 import classes from "./navbar-search.module.css";
 import CollapsibleAUM from "./_components/collapsible-aum";
+import CollapsibleDateRange from "./_components/collapsible-date-range";
 
 export function Sidebar() {
   const [expanded, setExpanded] = useState(true);
@@ -77,6 +78,7 @@ export function Sidebar() {
         <CollapsibleAssetType isHidden={isHidden} />
         <CollapsibleCompensationType isHidden={isHidden} />
         <CollapsibleService isHidden={isHidden} />
+        <CollapsibleDateRange isHidden={isHidden} />
       </Box>
     </nav>
   );

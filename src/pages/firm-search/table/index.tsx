@@ -76,7 +76,7 @@ const DraggableColumnHeader = ({
     },
   });
 
-  const [{ isDragging }, dragRef] = useDrag({
+  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag({
     type: "column",
     item: () => column,
     collect: (monitor) => ({
@@ -131,7 +131,7 @@ const DraggableColumnHeader = ({
       }}
     >
       <div
-        ref={dragRef as any}
+        ref={dragPreviewRef as any}
         style={{
           display: "flex",
           alignItems: "center",
@@ -157,7 +157,13 @@ const DraggableColumnHeader = ({
       </div>
 
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-        <div style={{ cursor: "pointer" }}>
+        <div 
+          ref={dragRef as any}
+          style={{ 
+            cursor: "grab", 
+            opacity: isDragging ? 0.5 : 1,
+          }}
+        >
           <IconGridDots size={13} />
         </div>
         <div ref={popoverRef} style={{ cursor: "pointer" }}>
@@ -391,7 +397,7 @@ const Pagination = ({ table }: { table: any }) => {
           -
           {Math.min(
             (table.getState().pagination.pageIndex + 1) *
-              table.getState().pagination.pageSize,
+            table.getState().pagination.pageSize,
             table.getFilteredRowModel().rows.length
           )}{" "}
           of {table.getFilteredRowModel().rows.length}
@@ -588,9 +594,8 @@ export function FirmSearchTable() {
                       {/* Resizer */}
                       {header.column.getCanResize() && (
                         <div
-                          className={`resizer ${
-                            header.column.getIsResizing() ? "isResizing" : ""
-                          }`}
+                          className={`resizer ${header.column.getIsResizing() ? "isResizing" : ""
+                            }`}
                           onMouseDown={header.getResizeHandler()}
                           onTouchStart={header.getResizeHandler()}
                           style={{
