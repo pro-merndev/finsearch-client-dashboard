@@ -1,9 +1,53 @@
 import { Box, Flex, Text } from "@mantine/core";
+import {
+  ColumnOrderState,
+  ColumnResizeMode,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState,
+} from "@tanstack/react-table";
+import { useState } from "react";
 import { Sidebar } from "./sidebar";
 import { FirmSearchTable } from "./table";
-import FilterInputs from "./table/_components/filter-inputs";
+import { columns } from "./table/_components/columns";
+import { data } from "./table/_data";
+import Toolbar from "./toolbar";
 
 const FirmSearch = () => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnResizeMode] = useState<ColumnResizeMode>("onChange");
+  const [globalFilter, setGlobalFilter] = useState("");
+
+  if (columnOrder.length === 0) {
+    setColumnOrder(columns.map((column) => (column as any).id));
+  }
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+      columnOrder,
+      globalFilter,
+      columnVisibility,
+    },
+    onSortingChange: setSorting,
+    onColumnOrderChange: setColumnOrder,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    columnResizeMode,
+    enableHiding: true,
+  });
   return (
     <main>
       <Flex direction={{ base: "row" }} justify={"space-between"} mb={20}>
@@ -20,9 +64,9 @@ const FirmSearch = () => {
       <Flex direction={{ base: "row" }} gap={{ base: "lg" }}>
         <Sidebar />
         <Box bg={"#fff"} style={{ borderRadius: "5px" }} p={20} w={"100%"}>
-          <FilterInputs />
+          <Toolbar table={table} />
           <Box style={{ borderRadius: "20px" }}>
-            <FirmSearchTable />
+            <FirmSearchTable table={table} />
           </Box>
         </Box>
       </Flex>
