@@ -1,3 +1,4 @@
+import FullScreenProvider from "@/providers/full-screen-provider";
 import { Box, Flex, Text } from "@mantine/core";
 import {
   ColumnOrderState,
@@ -11,6 +12,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { useFullScreenHandle } from "react-full-screen";
 import { Sidebar } from "./sidebar";
 import { FirmSearchTable } from "./table";
 import { columns } from "./table/_components/columns";
@@ -18,6 +20,7 @@ import { data } from "./table/_data";
 import Toolbar from "./toolbar";
 
 const FirmSearch = () => {
+  const fullScreenHandle = useFullScreenHandle();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -47,29 +50,39 @@ const FirmSearch = () => {
     onGlobalFilterChange: setGlobalFilter,
     columnResizeMode,
     enableHiding: true,
+    meta: {
+      toggleFullScreen: () => {
+        fullScreenHandle.active
+          ? fullScreenHandle.exit()
+          : fullScreenHandle.enter();
+      },
+    },
   });
+
   return (
     <main>
-      <Flex direction={{ base: "row" }} justify={"space-between"} mb={20}>
-        <Text size="xl" fw={"bolder"}>
-          Firm Search
-        </Text>
-        <Text size="lg" c={"#495057"}>
-          <Text span c={"#155F98"}>
-            14,890
-          </Text>{" "}
-          Results
-        </Text>
-      </Flex>
-      <Flex direction={{ base: "row" }} gap={{ base: "lg" }}>
-        <Sidebar />
-        <Box bg={"#fff"} style={{ borderRadius: "5px" }} p={20} w={"100%"}>
-          <Toolbar table={table} />
-          <Box style={{ borderRadius: "20px" }}>
-            <FirmSearchTable table={table} />
+      <FullScreenProvider handle={fullScreenHandle}>
+        <Flex direction={{ base: "row" }} justify={"space-between"} mb={20}>
+          <Text size="xl" fw={"bolder"}>
+            Firm Search
+          </Text>
+          <Text size="lg" c={"#495057"}>
+            <Text span c={"#155F98"}>
+              14,890
+            </Text>{" "}
+            Results
+          </Text>
+        </Flex>
+        <Flex direction={{ base: "row" }} gap={{ base: "lg" }}>
+          <Sidebar />
+          <Box bg={"#fff"} style={{ borderRadius: "5px" }} p={20} w={"100%"}>
+            <Toolbar table={table} />
+            <Box style={{ borderRadius: "20px" }}>
+              <FirmSearchTable table={table} />
+            </Box>
           </Box>
-        </Box>
-      </Flex>
+        </Flex>
+      </FullScreenProvider>
     </main>
   );
 };
