@@ -14,6 +14,8 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: true,
     footer: (info) => info.column.id,
     enableHiding: true,
+    minSize: 200,
+    size: 200
   }),
   columnHelper.accessor("location", {
     header: () => (
@@ -25,6 +27,8 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: true,
     footer: (info) => info.column.id,
     enableHiding: true,
+    minSize: 200,
+    size: 200
   }),
   columnHelper.accessor("totalAUM", {
     header: () => (
@@ -40,6 +44,8 @@ export const columns: ColumnDef<any>[] = [
       return value >= min && value <= max;
     },
     enableHiding: true,
+    minSize: 200,
+    size: 200
   }),
   columnHelper.accessor("individualAUM", {
     header: () => (
@@ -50,5 +56,7 @@ export const columns: ColumnDef<any>[] = [
     cell: (info) => `$${info.getValue() || 50}M`,
     enableSorting: true,
     enableHiding: true,
+    minSize: 200,
+    size: 200
   }),
 ];
