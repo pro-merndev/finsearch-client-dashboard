@@ -1,18 +1,38 @@
-import { Box, TextInput } from "@mantine/core"
-import { IconCalendar } from "@tabler/icons-react"
+import { Box, TextInput } from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
+import { IconCalendar } from "@tabler/icons-react";
+import { useState } from "react";
 
 function DateRangePicker() {
-  
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDateInput, setStartDateInput] = useState<string>("");
+  const [endDateInput, setEndDateInput] = useState<string>("");
+  const [startPickerOpen, setStartPickerOpen] = useState<boolean>(true);
+  const [endPickerOpen, setEndPickerOpen] = useState<boolean>(false);
+
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+    setStartDateInput(date ? date.toLocaleDateString() : "");
+    setStartPickerOpen(false);
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+    setEndDateInput(date ? date.toLocaleDateString() : "");
+    setEndPickerOpen(false);
+  };
+
+  console.log(startPickerOpen);
+
   return (
     <Box mb="lg">
-      {/* Custom date range picker that matches the design */}
-      <Box sx={{ position: "relative" }} >
+      <Box>
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            position: "relative",
           }}
         >
           {/* Start Date Input */}
@@ -23,10 +43,14 @@ function DateRangePicker() {
               border: "1px solid #ced4da",
               borderRadius: "4px",
               overflow: "hidden",
+              cursor: "pointer", // Make the entire box clickable
             }}
+            onClick={() => setStartPickerOpen(true)} // Open date picker on click
           >
             <TextInput
-              placeholder="Start Date"
+              placeholder="Start"
+              size="xs"
+              value={startDateInput}
               sx={{
                 cursor: "pointer",
                 paddingRight: "30px",
@@ -44,6 +68,13 @@ function DateRangePicker() {
               }}
               readOnly
             />
+            {startPickerOpen && (
+              <DatePicker
+                value={startDate}
+                onChange={handleStartDateChange}
+                sx={{ position: "absolute", top: "100%", zIndex: 1 }}
+              />
+            )}
             <Box
               sx={{
                 position: "absolute",
@@ -84,17 +115,19 @@ function DateRangePicker() {
               border: "1px solid #ced4da",
               borderRadius: "4px",
               overflow: "hidden",
+              cursor: "pointer", // Make the entire box clickable
             }}
+            onClick={() => setEndPickerOpen(true)} // Open date picker on click
           >
             <TextInput
-              placeholder="End Date"
+              placeholder="End"
               size="xs"
+              value={endDateInput}
               sx={{
                 cursor: "pointer",
                 paddingRight: "30px",
                 color: "#000000",
                 border: "none",
-                fontSize: ""
               }}
               styles={{
                 input: {
@@ -107,6 +140,13 @@ function DateRangePicker() {
               }}
               readOnly
             />
+            {endPickerOpen && (
+              <DatePicker
+                value={endDate}
+                onChange={handleEndDateChange}
+                sx={{ position: "absolute", top: "100%", zIndex: 1 }}
+              />
+            )}
             <Box
               sx={{
                 position: "absolute",
@@ -123,7 +163,7 @@ function DateRangePicker() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default DateRangePicker;
