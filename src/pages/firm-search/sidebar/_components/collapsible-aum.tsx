@@ -6,9 +6,9 @@ import { IconChevronDown } from "@tabler/icons-react"
 
 interface RangeProps {
   label: string
-}
+} // Add this closing brace to properly close the RangeProps interface
 
-const Range = ({ label }: RangeProps) => {
+const Range: React.FC<RangeProps> = ({ label }) => { // Add type annotation for the Range component
   return (
     <Box my={8}>
       <Text size="xs" fw={500} mb={8}>
